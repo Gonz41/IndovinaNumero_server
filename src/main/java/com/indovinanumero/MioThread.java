@@ -3,30 +3,19 @@ package com.indovinanumero;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
-import java.net.ServerSocket;
 import java.net.Socket;
 
-/**
- * Hello world!
- *
- */
-public class App 
-{
-    public static void main( String[] args )
-    {
+public class MioThread extends Thread{
+    private Socket s;
+    private Integer number;
+
+    public MioThread(Socket s, Integer i){
+        this.s = s;
+        this.number = i;
+    }
+
+    public void run(){
         try{
-            ServerSocket server = new ServerSocket(3000);
-            while(true){
-                Socket s = server.accept();
-
-                int number = (int)(Math.random()*100+1);
-                System.out.println("Client - Connessione effettuata.");
-
-                MioThread t1 = new MioThread(s,number);
-                t1.start();
-            }
-            
-            /* 
             BufferedReader in = new BufferedReader(new InputStreamReader(s.getInputStream()));
             DataOutputStream out = new DataOutputStream(s.getOutputStream());
             boolean indovina = true;
@@ -50,14 +39,9 @@ public class App
                 }
             }
             s.close();
-            System.out.println("Connessione chiusa.");
-            server.close();
-            
-            */
-        }catch (Exception e){
+            System.out.println("\nConnessione chiusa.");
+        }catch(Exception e){
             System.out.println(e.getMessage());
-            System.out.println("Errore durante l'instanza.");
-            System.exit(1);
         }
     }
 }
